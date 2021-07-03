@@ -1,9 +1,10 @@
+<br/>
 <% if @product.assemblies_parts.any? %>
   <div class="columns col-lg-12">
-    <h6><%= Spree.t(:parts_included) %></h6>
+    <h3><%= Spree.t(:parts_included) %>:</h3>
 
     <% @product.variants_or_master.each do |variant| %>
-      <ul id="products" class="inline product-listing list-unstyled assemblies_variant assemblies_for_variant_<%= variant.id %>" data-hook style='display:none;'>
+      <ul style="margin-bottom:1em;" id="products" class="assemble-list inline product-listing list-unstyled assemblies_variant assemblies_for_variant_<%= variant.id %>" data-hook style='display:none;'>
         <% variant.parts_variants.includes(:part).each do |part_variant| %>
           <%- part = part_variant.part %>
 
@@ -13,15 +14,19 @@
             </div>
             <%= link_to truncate(part.product.name, length: 50), part.product, class: 'info', itemprop: "name", title: part.product.name %>
 
-            <%- if !part.in_stock? && !part_variant.variant_selection_deferred? %>
-              <%- if part.is_backorderable? %>
-                <div class="on-backorder"><%= Spree.t(:backorderable) %></div>
-              <%- else %>
-                <div class="out-of-stock"><%= Spree.t(:out_of_stock) %></div>
-              <%- end %>
-            <%- end %>
+            <%#- if !part.in_stock? && !part_variant.variant_selection_deferred? %>
+            <%#- if part.is_backorderable? %>
+			<!-- <div class="on-backorder"> -->
+			<%#= Spree.t(:backorderable) %>
+			<!-- </div>  -->
+			<%#- else %>
+			<!-- <div class="out-of-stock"> -->
+			<%#= Spree.t(:out_of_stock) %>
+			<!-- </div> -->
+			<%#- end %>
+			<%#- end %>
 
-            <%- if part_variant.variant_selection_deferred? %>
+			<%- if part_variant.variant_selection_deferred? %>
               <div class="variant-selection-deferred">
                 <%- product = part.product %>
                 <%= label_tag "options_selected_variants_#{part.id}", Spree.t(:variant) %>
@@ -33,6 +38,7 @@
               </div>
             <%- end %>
           </li>
+		  <br/>
         <% end %>
       </ul>
     <% end %>
